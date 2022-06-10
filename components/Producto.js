@@ -4,7 +4,7 @@ import useQuiosco from '../hooks/useQuiosco'
 
 const Producto = ({ producto }) => {
 
-    const { handleSetProducto } = useQuiosco()
+    const { handleSetProducto, handleChangeModal } = useQuiosco()
 
     const { nombre, imagen, precio } = producto
 
@@ -22,7 +22,10 @@ const Producto = ({ producto }) => {
                         { formatearDinero(precio) }
                     </p>
                     <button 
-                        onClick={()=>handleSetProducto(producto)}
+                        onClick={()=>{
+                            handleSetProducto(producto)
+                            handleChangeModal()
+                        }}
                         type='button'
                         className='bg-indigo-600 hover:bg-indigo-800 text-white mt-5 p-3 uppercase font-bold w-full'>
                         Agregar
