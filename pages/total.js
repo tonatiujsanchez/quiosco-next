@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from "react";
-import { formatearDinero } from "../helpers";
 import useQuiosco from "../hooks/useQuiosco";
 import Layout from "../layout/Layout";
+import { formatearDinero } from "../helpers";
 
 export default function TotalPage() {
 
@@ -15,8 +15,6 @@ export default function TotalPage() {
     useEffect(()=>{
         comprobarPedido()
     },[pedido, comprobarPedido])
-
-
 
 
     return (

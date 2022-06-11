@@ -13,8 +13,8 @@ export default function ResumenPage() {
                 Revisa tu pedido
             </p>
             { pedido.length <= 0 
-                ? <div>
-                    <p className="text-center text-2xl">No has agregado nada a tu pedido</p>
+                ? <div className="mt-20">
+                    <p className="text-center leading-10 text-gray-400 text-3xl font-bold max-w-[400px] mx-auto">No has agregado nada a tu pedido</p>
                 </div>
                 : <div>
                     { pedido.map( producto => (
