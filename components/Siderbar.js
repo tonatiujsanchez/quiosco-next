@@ -1,6 +1,8 @@
+
 import Image from "next/image"
+
 import useQuiosco from "../hooks/useQuiosco"
-import Categoria from "./Categoria";
+import Categoria from "./Categoria"
 
 const Siderbar = () => {
 

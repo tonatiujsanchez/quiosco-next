@@ -12,7 +12,9 @@ const QuioscoProvider = ({ children }) => {
     const [producto, setProducto] = useState({})
     const [modal, setModal] = useState(false)
     const [pedido, setPedido] = useState([])
-    const [paso, setPaso] = useState(1)
+    const [nombre, setNombre] = useState('')
+    const [total, setTotal] = useState(0)
+    
 
     const obtenerCategorias = async () => {
         const { data } = await axios('/api/categorias')
@@ -23,6 +25,13 @@ const QuioscoProvider = ({ children }) => {
     useEffect(()=> {
         obtenerCategorias()
     },[])
+
+    useEffect(()=>{
+        const totalTemp = pedido.reduce( (total, producto) => {
+            return (producto.precio * producto.cantidad) + total
+        }, 0)
+        setTotal(totalTemp)
+    },[pedido])
 
 
     const handleClickCategoria = (id) => {
@@ -38,7 +47,7 @@ const QuioscoProvider = ({ children }) => {
         setModal(!modal)
     }
 
-    const handleAgregarPedido = ( { imagen, categoriaId, ...producto} ) => {
+    const handleAgregarPedido = ( { categoriaId, ...producto} ) => {
 
         const existeProducto = pedido.some( p => p.id === producto.id ) 
 
@@ -61,8 +70,27 @@ const QuioscoProvider = ({ children }) => {
 
     }
 
-    const handleChangePaso = ( paso ) => {
-        setPaso(paso)
+    const handleEditarCantidades = (id) => {
+        const productoEditar = pedido.find( p => p.id === id )
+        setProducto(productoEditar)
+        setModal(true)
+    }
+
+    const handleEliminarProducto = (id) => {
+        const pedidoActualizado = pedido.filter( producto => producto.id !== id )
+        setPedido( pedidoActualizado )
+        toast.success('Prducto eliminado del pedido', {
+            position: "top-right",
+            autoClose: 1000,
+            });
+    }
+ 
+    const handleColocarOrder = (e) => {
+        e.preventDefault()
+        console.log('Enviando Orden...');
+        console.log(pedido);
+        console.log(nombre);
+        console.log(total);
     }
 
     return (
@@ -77,8 +105,12 @@ const QuioscoProvider = ({ children }) => {
                 modal,
                 handleAgregarPedido,
                 pedido,
-                handleChangePaso,
-                paso
+                handleEditarCantidades,
+                handleEliminarProducto,
+                setNombre,
+                nombre,
+                handleColocarOrder,
+                total
             }} >
             {children}
         </QuioscoContext.Provider>

@@ -1,6 +1,4 @@
 import { useRouter } from "next/router"
-import useQuiosco from "../hooks/useQuiosco"
-
 
 
 const pasos = [
@@ -12,16 +10,15 @@ const pasos = [
 const Progreso = () => {
 
     const router = useRouter()
-    const { handleChangePaso, paso } = useQuiosco()
 
     const calcularProgeso = () => {
 
-        switch (paso) {
-            case 1:
+        switch (router.pathname) {
+            case '/':
                 return 25;
-            case 2:
+            case '/resumen':
                 return 60;
-            case 3:
+            case '/total':
                 return 100;
             default:
                 return 100;
@@ -35,10 +32,7 @@ const Progreso = () => {
                     pasos.map(paso => (
                         <button
                             key={paso.paso}
-                            onClick={() => { 
-                                router.push(paso.url)
-                                handleChangePaso(paso.paso) 
-                            }}
+                            onClick={() => { router.push(paso.url) }}
                             className="text-2xl font-bold uppercase flex-1 flex items-center justify-around gap-2" >
                             {paso.nombre}
                             {paso.paso !== 3 &&
@@ -55,7 +49,6 @@ const Progreso = () => {
             <div className="bg-slate-200 mb-10">
                 <div className="rounded-full bg-amber-500 text-xs leading-none h-2 text-center text-white"
                     style={{ width: `${calcularProgeso()}%` }}>
-
                 </div>
             </div>
         </>
